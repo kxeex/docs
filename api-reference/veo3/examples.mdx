@@ -1,0 +1,71 @@
+---
+title: "Code Examples"
+description: "Ready-to-use code snippets for Veo3 integration"
+---
+
+## cURL
+
+### Basic Generation
+```bash
+curl -X POST https://api.runblob.com/api/veo/generate \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "A cat playing with a ball in a sunny room"
+  }'
+```
+
+### Check Status
+```bash
+curl -X GET https://api.runblob.com/api/veo/status/TASK_ID \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Python
+
+### Simple Client
+```python
+import requests
+import time
+
+class VeoClient:
+    def __init__(self, api_key):
+        self.api_key = api_key
+        self.base_url = "https://api.runblob.com"
+        self.headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+    
+    def generate(self, prompt):
+        response = requests.post(
+            f"{self.base_url}/api/veo/generate",
+            headers=self.headers,
+            json={"prompt": prompt}
+        )
+        return response.json()
+    
+    def status(self, task_id):
+        response = requests.get(
+            f"{self.base_url}/api/veo/status/{task_id}",
+            headers=self.headers
+        )
+        return response.json()
+    
+    def wait_for_completion(self, task_id):
+        while True:
+            result = self.status(task_id)
+            if result["status"] == "completed":
+                return result["video_url"]
+            elif result["status"] == "failed":
+                raise Exception(f"Generation failed: {result['message']}")
+            time.sleep(10)
+
+# Usage
+client = VeoClient("YOUR_API_KEY")
+result = client.generate("A sunset over mountains")
+video_url = client.wait_for_completion(result["task_id"])
+print(f"Video ready: {video_url}")
+```
+
+

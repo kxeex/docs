@@ -1,0 +1,88 @@
+---
+title: "Generate Video"
+description: "Create videos from text prompts using Veo3"
+---
+
+<Info>
+  **Base URL:** `https://api.runblob.com`
+</Info>
+
+## POST /api/veo/generate
+
+Creates a video generation task from text description using Google Veo3.
+
+<ParamField path="prompt" type="string" required>
+  Text description of the video (10-4000 characters)
+</ParamField>
+
+<ParamField path="model_type" type="string" default="veo-3-fast">
+  Model version: `"veo-3-fast"` or `"veo-3-quality"`
+</ParamField>
+
+<ParamField path="seed" type="number">
+  Reproducibility seed (1-10000)
+</ParamField>
+
+<ParamField path="callback_url" type="string">
+  Webhook URL for completion notifications
+</ParamField>
+
+<ParamField path="bytes_image" type="string">
+  Base64-encoded image for image-to-video (max 5MB, JPEG/PNG/WEBP)
+</ParamField>
+
+<ParamField path="filter_text" type="string">
+  Content filtering options: `"moderate"`, `"translate"`, `"moderate_translate"`
+</ParamField>
+
+<ParamField path="aspect_ratio" type="string" default="16:9">
+  Video aspect ratio: `"9:16"` or `"16:9"`.
+  Ratio `"9:16"` not supported with images!
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://api.runblob.com/api/veo/generate \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "A cat playing with a ball in a sunny room",
+    "model_type": "veo-3-fast",
+    "seed": 1234
+  }'
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://api.runblob.com/api/veo/generate",
+    headers={
+        "Authorization": "Bearer YOUR_API_KEY",
+        "Content-Type": "application/json"
+    },
+    json={
+        "prompt": "A cat playing with a ball in a sunny room",
+        "model_type": "veo-3-fast"
+    }
+)
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "success": true,
+  "message": "Task created successfully",
+  "task_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+}
+```
+
+<Note>
+  Video generation typically takes 1-10 minutes. Use the `task_id` to check status or set up webhooks for notifications.
+</Note>
+
+
