@@ -60,7 +60,7 @@
       "anchors": [
         {
           "anchor": "Contact Support",
-          "href": "https://t.me/runblob_support",
+          "href": "https://t.me/runblobsupport",
           "icon": "telegram"
         }
       ]
@@ -77,7 +77,7 @@
           },
           {
             "label": "Support",
-            "href": "https://t.me/runblob_support"
+            "href": "https://t.me/runblobsupport"
           }
         ]
       }
