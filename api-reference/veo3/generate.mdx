@@ -182,23 +182,15 @@ Generate video from text prompt only (no images).
 ### 2. Image-to-Video
 Animate a single image with text prompt using `bytes_image` parameter.
 
-**Features:**
-- Automatic aspect ratio conversion (16:9 or 9:16)
 - Formats: JPEG, PNG, WEBP
 - Max size: 20 MB
+- Models: `veo-3-fast`, `veo-3-quality`
 
-**Models:** `veo-3-fast`, `veo-3-quality`
-
-### 3. Frame-to-Frame (FL Mode)
+### 3. Frame-to-Frame
 Generate smooth transition between two frames using `start_frame` and `end_frame` parameters.
 
-**Features:**
 - Both frames are **required**
-- Automatic FL model selection based on aspect ratio
-- Parallel frame upload for faster processing
-- Automatic aspect ratio conversion
-
-**Models:** `veo-3-fast`, `veo-3-quality` (FL model auto-detected)
+- Models: `veo-3-fast`, `veo-3-quality`
 
 <Warning>
   Frame-to-Frame requires **both** `start_frame` and `end_frame`. Using only one will result in an error.
@@ -207,13 +199,8 @@ Generate smooth transition between two frames using `start_frame` and `end_frame
 ### 4. Reference Images
 Generate video guided by 1-3 reference images using `reference_images` parameter.
 
-**Features:**
-- 1-3 images supported
-- Parallel upload of all images
-- Graceful degradation: works with partially loaded images (minimum 1 required)
-- **Only Fast models supported** (automatically uses `veo-3-fast`)
-
-**Models:** `veo-3-fast` only
+- 1-3 images supported (JPEG, PNG, WEBP, max 20 MB each)
+- **Only works with `veo-3-fast`**
 
 <Info>
   **Validation:** Only one mode per request. You cannot combine `bytes_image`, `start_frame/end_frame`, and `reference_images` in the same request.
